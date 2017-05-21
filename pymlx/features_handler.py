@@ -7,9 +7,7 @@ from pandas import DataFrame
 from .core import check
 
 
-class FeaturesHandler(object):
-    __metaclass__ = ABCMeta
-
+class FeaturesHandler(object, metaclass=ABCMeta):
     def __init__(self, in_feature_names):
         self.in_feature_names = in_feature_names
         self.out_feature_names = None
@@ -71,7 +69,7 @@ class OneToOneMapperHandler(FeaturesHandler):
         self._mapper = mapper
 
     def apply(self, input_generator):
-        yield 0, self._mapper(input_generator.next())
+        yield 0, self._mapper(next(input_generator))
 
 
 class CategoricalHandler(FeaturesHandler):
@@ -211,10 +209,10 @@ class PredicatesHandler(FeaturesHandler):
             predicate = module.__dict__.get(f)
             predicates.append(predicate)
             out_feature_names.append(f)
-            features_set |= set(predicate.func_code.co_varnames)
+            features_set |= set(predicate.__code__.co_varnames)
         in_feature_names = list(features_set)
         name_to_idx = {name: idx for idx, name in enumerate(in_feature_names)}
-        self._indices = [[name_to_idx[name] for name in predicate.func_code.co_varnames]
+        self._indices = [[name_to_idx[name] for name in predicate.__code__.co_varnames]
                          for predicate in predicates]
         self._predicates = predicates
         self.in_feature_names = in_feature_names

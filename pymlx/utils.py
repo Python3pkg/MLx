@@ -49,7 +49,7 @@ def load_featurized_data(filename, label_col, feat, in_memory=True):
         dim = len(dtypes)
         with open(filename, 'rb') as csv_file:
             reader = csv.reader(csv_file)
-            header = reader.next()
+            header = next(reader)
             label_index = header.index(label_col)
             feature_indices = [header.index(f) for f in feat.in_feature_names]
 
@@ -78,7 +78,7 @@ def histogram(filename, cols):
     if isinstance(cols, list):
         with open(filename, 'rb') as f:
             reader = csv.reader(f)
-            header = reader.next()
+            header = next(reader)
             col_idx = {col: header.index(col) for col in cols}
             histograms = {col: {} for col in cols}
             for row in reader:
@@ -91,10 +91,10 @@ def histogram(filename, cols):
                         hist[value] = 1
         for col in cols:
             hist = histograms[col]
-            print(col + ':')
-            for pair in sorted(hist.items(), key=lambda x: x[1], reverse=True):
-                print(' {0}\t{1}'.format(pair[0], pair[1]))
-            print
+            print((col + ':'))
+            for pair in sorted(list(hist.items()), key=lambda x: x[1], reverse=True):
+                print((' {0}\t{1}'.format(pair[0], pair[1])))
+            print()
     else:
         col = cols
         with open(filename, 'rb') as f:
@@ -107,8 +107,8 @@ def histogram(filename, cols):
                     hist[value] += 1
                 else:
                     hist[value] = 1
-        for pair in sorted(hist.items(), key=lambda x: x[1], reverse=True):
-            print(' {0}\t{1}'.format(pair[0], pair[1]))
+        for pair in sorted(list(hist.items()), key=lambda x: x[1], reverse=True):
+            print((' {0}\t{1}'.format(pair[0], pair[1])))
 
 
 def field_types(df):
@@ -136,4 +136,4 @@ def report_timing(unit='minute', fresh=True):
     global _elapsed
     if fresh:
         _elapsed = time() - _start_time
-    print('Elapsed: {0:.2g} {1}s'.format(_elapsed / _time_unit_conversion[unit], unit))
+    print(('Elapsed: {0:.2g} {1}s'.format(_elapsed / _time_unit_conversion[unit], unit)))

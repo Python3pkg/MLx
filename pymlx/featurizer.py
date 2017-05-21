@@ -233,7 +233,7 @@ def suggest_handlers(df, sample_size=10000, trees_optimized=True, hinted_featuri
                 pass
             print(kind)
             if set(desc.index) != set(cols):
-                print('Outlier columns: {0}'.format(sorted(set(cols) - set(desc.index))))
+                print(('Outlier columns: {0}'.format(sorted(set(cols) - set(desc.index)))))
             samples = df_sub.ix[random.sample(list(df_sub.index), 5)]
             desc['Sample values'] = Series(
                 [', '.join(('{:.2g}' if isinstance(val, float) else '{:}')
@@ -242,6 +242,6 @@ def suggest_handlers(df, sample_size=10000, trees_optimized=True, hinted_featuri
             desc.columns = [col.title() for col in desc.columns]
             ret[kind] = desc
             IPython.display.display(desc)
-            print
+            print()
 
     return ret

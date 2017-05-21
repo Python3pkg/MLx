@@ -1,5 +1,5 @@
 import unittest
-from utils import *
+from .utils import *
 
 
 class TestMLx(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestMLx(unittest.TestCase):
         self.assertEqual(list(handler.apply([19, 12])),
                          [(0, 0), (1, 12)])
 
-        self.assertEqual(handler.apply([20, 0]).next(), (0, 0))
+        self.assertEqual(next(handler.apply([20, 0])), (0, 0))
 
     def test_isupper(self):
         self.assertTrue('FOO'.isupper())

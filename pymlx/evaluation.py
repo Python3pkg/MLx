@@ -44,15 +44,15 @@ def _show_confusion_matrix(truths, predictions, threshold):
     print('                 PREDICTED            Recall')
     print('         ======F=============T======')
     print('         |            |            |')
-    print('         F{0:10}  |{1:10}  |  N: {2:.2f}%'.format(tn, fp, float(tn) / (tn + fp) * 100))
+    print(('         F{0:10}  |{1:10}  |  N: {2:.2f}%'.format(tn, fp, float(tn) / (tn + fp) * 100)))
     print('         |            |            |')
     print('LABELED  |-------------------------|')
     print('         |            |            |')
-    print('         T{0:10}  |{1:10}  |  P: {2:.2f}%'.format(fn, tp, float(tp) / (fn + tp) * 100))
+    print(('         T{0:10}  |{1:10}  |  P: {2:.2f}%'.format(fn, tp, float(tp) / (fn + tp) * 100)))
     print('         |            |            |')
     print('         ===========================')
-    print('Precision   N: {0:.2f}%     P: {1:.2f}%'.format(float(tn) / (tn + fn) * 100,
-                                                           float(tp) / (fp + tp) * 100))
+    print(('Precision   N: {0:.2f}%     P: {1:.2f}%'.format(float(tn) / (tn + fn) * 100,
+                                                           float(tp) / (fp + tp) * 100)))
 
 
 def confusion_matrix(truths, predictions, sampling_rate=1):
@@ -60,7 +60,7 @@ def confusion_matrix(truths, predictions, sampling_rate=1):
     assert len(truths) == len(predictions)
     if sampling_rate < 1:
         n = len(truths)
-        indices = random.sample(range(n), int(n * sampling_rate))
+        indices = random.sample(list(range(n)), int(n * sampling_rate))
         truths = [truths[i] for i in indices]
         predictions = [predictions[i] for i in indices]
 
